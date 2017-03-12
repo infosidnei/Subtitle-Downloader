@@ -5,7 +5,6 @@ import os
 from bs4 import BeautifulSoup
 
 movieFolder = "E:\Movies"
-default = "F:\Movies\Subtitles"
 
 def ToWords(num):
 	map={"1":"first","2":"second","3":"third","4":"fourth","5":"fifth","6":"sixth","7":"seventh"
@@ -55,8 +54,12 @@ def download_subs(page,s1,path):
 	try:
 		play=open(os.path.join(path,s1+".zip"),"wb")
 	except:
-		path= default
-		play=open(os.path.join(path,s1+".zip"),"wb")
+		if( not os.path.exists( os.path.join(movieFolder,"Subtitles") ) ):
+			os.makedirs( os.path.join(movieFolder,"Subtitles") )
+
+			
+	path = os.path.join(movieFolder, "Subtitles")
+	play=open(os.path.join(path,s1+".zip"),"wb")
 	
 	for chunk in page.iter_content(200000):
 		play.write(chunk)
